@@ -1,0 +1,181 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>F_18_b_Mk2</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-17"><meta name="DC.source" content="F_18_b_Mk2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Tau2Theta - Lateral Inner Control</a></li><li><a href="#3">Cutoff Frequency</a></li><li><a href="#4">Lead Design</a></li><li><a href="#5">Low Pass Filter</a></li><li><a href="#6">Save Controller</a></li><li><a href="#7">Constraints</a></li></ul></div><pre class="codeinput">clc; clear; close; format <span class="string">compact</span>;
+
+run(<span class="string">'vtol_param.m'</span>)
+</pre><h2 id="2">Tau2Theta - Lateral Inner Control</h2><pre class="codeinput">Tau2Th_num = [1];
+Tau2Th_den = [(P.Jc + 2*P.mr*P.d^2), 0, 0];
+Tau2Th = tf(Tau2Th_num,Tau2Th_den);
+
+figure()
+bode(Tau2Th)
+grid <span class="string">on</span>
+hold <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="F_18_b_Mk2_01.png" alt=""> <h2 id="3">Cutoff Frequency</h2><pre class="codeinput">wc = 11;
+</pre><h2 id="4">Lead Design</h2><pre class="codeinput">M = 500;
+
+Lead_num = [1, wc/sqrt(M)];
+Lead_den = [1, wc*sqrt(M)];
+Leadtf = M*tf(Lead_num,Lead_den);
+
+[Lead_mag,~] = bode(Tau2Th*Leadtf,wc);
+LeadK = 1/Lead_mag;
+
+margin(Tau2Th*Leadtf*LeadK)
+legend(<span class="string">'Plant'</span>,<span class="string">'Lead'</span>)
+</pre><img vspace="5" hspace="5" src="F_18_b_Mk2_02.png" alt=""> <h2 id="5">Low Pass Filter</h2><pre class="codeinput">wfilter = 21;
+Filter_num = wfilter;
+Filter_den = [1, wfilter];
+Filtertf = tf(Filter_num,Filter_den);
+
+margin(Tau2Th*Leadtf*LeadK*Filtertf);
+legend(<span class="string">'Plant'</span>,<span class="string">'Lead'</span>,<span class="string">'Filter'</span>)
+</pre><img vspace="5" hspace="5" src="F_18_b_Mk2_03.png" alt=""> <h2 id="6">Save Controller</h2><pre class="codeinput">C_inner = Leadtf*LeadK*Filtertf
+
+save(<span class="string">'F_Inner_Control.mat'</span>,<span class="string">'C_inner'</span>,<span class="string">'Tau2Th'</span>)
+</pre><pre class="codeoutput">
+C_inner =
+ 
+    2795 s + 1375
+  ------------------
+  s^2 + 267 s + 5165
+ 
+Continuous-time transfer function.
+
+</pre><h2 id="7">Constraints</h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Stable
+</span><span class="comment">
+</span><span class="comment">PM = 60 degrees
+</span><span class="comment">
+</span><span class="comment">wc = 10 rad/s
+</span><span class="comment">
+</span><span class="comment">Low pass filter
+</span><span class="comment">%}</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; clear; close; format compact;
+
+run('vtol_param.m')
+
+%% Tau2Theta - Lateral Inner Control
+
+Tau2Th_num = [1];
+Tau2Th_den = [(P.Jc + 2*P.mr*P.d^2), 0, 0];
+Tau2Th = tf(Tau2Th_num,Tau2Th_den);
+
+figure()
+bode(Tau2Th)
+grid on
+hold on
+
+%% Cutoff Frequency 
+wc = 11;
+
+
+%% Lead Design
+M = 500;
+
+Lead_num = [1, wc/sqrt(M)];
+Lead_den = [1, wc*sqrt(M)];
+Leadtf = M*tf(Lead_num,Lead_den);
+
+[Lead_mag,~] = bode(Tau2Th*Leadtf,wc);
+LeadK = 1/Lead_mag;
+
+margin(Tau2Th*Leadtf*LeadK)
+legend('Plant','Lead')
+
+%% Low Pass Filter
+
+wfilter = 21;
+Filter_num = wfilter;
+Filter_den = [1, wfilter];
+Filtertf = tf(Filter_num,Filter_den);
+
+margin(Tau2Th*Leadtf*LeadK*Filtertf);
+legend('Plant','Lead','Filter')
+
+
+%% Save Controller
+C_inner = Leadtf*LeadK*Filtertf
+
+save('F_Inner_Control.mat','C_inner','Tau2Th')
+
+%% Constraints
+%{
+Stable
+
+PM = 60 degrees
+
+wc = 10 rad/s
+
+Low pass filter
+%}
+##### SOURCE END #####
+--></body></html>

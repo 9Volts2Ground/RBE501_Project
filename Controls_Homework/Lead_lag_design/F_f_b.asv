@@ -1,0 +1,62 @@
+clc; close all;
+
+%% Horizontal Dynamics
+
+Theta2Z_num = [P.g];
+Theta2Z_den = [1, P.mu/(P.mc + 2*P.mr), 0];
+Theta2Z = tf(Theta2Z_num,Theta2Z_den)
+
+Tau2Th_num = [1];
+Tau2Th_den = [(P.Jc + 2*P.mr*P.d^2), 0, 0];
+Tau2Th = tf(Tau2Th_num,Tau2Th_den)
+
+%% Inner Loop Design
+
+zth = wnth*.8;
+pth = zth*8;
+
+Th_num = [1/zth 1];
+Th_den = [1/pth 1];
+ThC = tf(Th_num,Th_den)
+
+InnerSys = ThC*Tau2Th
+
+Kth = .505;
+
+figure()
+rlocus(InnerSys)
+hold on 
+rlocus(InnerSys,Kth,'r^')
+grid on
+sgrid([zeta zeta],[wnth 1000])
+xlim([-15,.1])
+ylim([-7,7])
+
+%% Outer Loop Design
+
+Thr2Th_num = [Kth/zth, Kth];
+Thr2Th_den = [(P.Jc + 2*P.mr*P.d^2)/pth, (P.Jc + 2*P.mr*P.d^2), Kth/zth, Kth];
+Thr2Th = tf(Thr2Th_num,Thr2Th_den)
+Thr2Th = minreal(Thr2Th)
+
+% Inner = Kth*InnerSys
+zz = wnz*.75;
+pz = zz*7;
+
+ZC_num = [1/zz 1];
+ZC_den = [1/pz 1];
+ZC = tf(ZC_num,ZC_den)
+
+OuterSys = ZC*Thr2Th*Theta2Z; %ZC*Kth*InnerSys*Theta2Z
+OuterSys = minreal(OuterSys)
+
+Kz = 0.1%.00872;
+
+figure()
+rlocus(OuterSys)
+hold on 
+rlocus(OuterSys,Kz,'r^')
+grid on
+sgrid([zeta zeta],[wnz 1000])
+xlim([-3,2])
+ylim([-1,1])

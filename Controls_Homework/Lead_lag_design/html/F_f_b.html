@@ -1,0 +1,260 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>F_f_b</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-03-08"><meta name="DC.source" content="F_f_b.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Horizontal Dynamics</a></li><li><a href="#3">Inner Loop Design</a></li><li><a href="#4">Outer Loop Design</a></li></ul></div><pre class="codeinput">clc; close <span class="string">all</span>;
+</pre><h2 id="2">Horizontal Dynamics</h2><pre class="codeinput">Theta2Z_num = [P.g];
+Theta2Z_den = [1, P.mu/(P.mc + 2*P.mr), 0];
+Theta2Z = tf(Theta2Z_num,Theta2Z_den)
+
+Tau2Th_num = [1];
+Tau2Th_den = [(P.Jc + 2*P.mr*P.d^2), 0, 0];
+Tau2Th = tf(Tau2Th_num,Tau2Th_den)
+</pre><pre class="codeoutput">
+Theta2Z =
+ 
+       9.81
+  ---------------
+  s^2 + 0.06667 s
+ 
+Continuous-time transfer function.
+
+
+Tau2Th =
+ 
+      1
+  ----------
+  0.0492 s^2
+ 
+Continuous-time transfer function.
+
+</pre><h2 id="3">Inner Loop Design</h2><pre class="codeinput">zth = wnth*.8;
+pth = zth*8;
+
+Th_num = [1/zth 1];
+Th_den = [1/pth 1];
+ThC = tf(Th_num,Th_den)
+
+InnerSys = ThC*Tau2Th
+
+Kth = .505;
+
+figure()
+rlocus(InnerSys)
+hold <span class="string">on</span>
+rlocus(InnerSys,Kth,<span class="string">'r^'</span>)
+grid <span class="string">on</span>
+sgrid([zeta zeta],[wnth 1000])
+xlim([-15,.1])
+ylim([-7,7])
+</pre><pre class="codeoutput">
+ThC =
+ 
+  0.4545 s + 1
+  -------------
+  0.05682 s + 1
+ 
+Continuous-time transfer function.
+
+
+InnerSys =
+ 
+        0.4545 s + 1
+  -------------------------
+  0.002795 s^3 + 0.0492 s^2
+ 
+Continuous-time transfer function.
+
+</pre><img vspace="5" hspace="5" src="F_f_b_01.png" alt=""> <h2 id="4">Outer Loop Design</h2><pre class="codeinput">Thr2Th_num = [Kth/zth, Kth];
+Thr2Th_den = [(P.Jc + 2*P.mr*P.d^2)/pth, (P.Jc + 2*P.mr*P.d^2), Kth/zth, Kth];
+Thr2Th = tf(Thr2Th_num,Thr2Th_den)
+Thr2Th = minreal(Thr2Th)
+
+<span class="comment">% Inner = Kth*InnerSys</span>
+zz = wnz*.75;
+pz = zz*7;
+
+ZC_num = [1/zz 1];
+ZC_den = [1/pz 1];
+ZC = tf(ZC_num,ZC_den)
+
+OuterSys = ZC*Thr2Th*Theta2Z; <span class="comment">%ZC*Kth*InnerSys*Theta2Z</span>
+OuterSys = minreal(OuterSys)
+
+Kz = .00872;
+
+figure()
+rlocus(OuterSys)
+hold <span class="string">on</span>
+rlocus(OuterSys,Kz,<span class="string">'r^'</span>)
+grid <span class="string">on</span>
+sgrid([zeta zeta],[wnz 1000])
+xlim([-3,2])
+ylim([-1,1])
+</pre><pre class="codeoutput">
+Thr2Th =
+ 
+                0.2295 s + 0.505
+  --------------------------------------------
+  0.002795 s^3 + 0.0492 s^2 + 0.2295 s + 0.505
+ 
+Continuous-time transfer function.
+
+
+Thr2Th =
+ 
+          82.11 s + 180.7
+  --------------------------------
+  s^3 + 17.6 s^2 + 82.11 s + 180.7
+ 
+Continuous-time transfer function.
+
+
+ZC =
+ 
+  4.848 s + 1
+  ------------
+  0.6926 s + 1
+ 
+Continuous-time transfer function.
+
+
+OuterSys =
+ 
+                  5639 s^2 + 1.357e04 s + 2559
+  -------------------------------------------------------------
+  s^6 + 19.11 s^5 + 108.8 s^4 + 306.4 s^3 + 280.8 s^2 + 17.39 s
+ 
+Continuous-time transfer function.
+
+</pre><img vspace="5" hspace="5" src="F_f_b_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc; close all;
+
+%% Horizontal Dynamics
+
+Theta2Z_num = [P.g];
+Theta2Z_den = [1, P.mu/(P.mc + 2*P.mr), 0];
+Theta2Z = tf(Theta2Z_num,Theta2Z_den)
+
+Tau2Th_num = [1];
+Tau2Th_den = [(P.Jc + 2*P.mr*P.d^2), 0, 0];
+Tau2Th = tf(Tau2Th_num,Tau2Th_den)
+
+%% Inner Loop Design
+
+zth = wnth*.8;
+pth = zth*8;
+
+Th_num = [1/zth 1];
+Th_den = [1/pth 1];
+ThC = tf(Th_num,Th_den)
+
+InnerSys = ThC*Tau2Th
+
+Kth = .505;
+
+figure()
+rlocus(InnerSys)
+hold on 
+rlocus(InnerSys,Kth,'r^')
+grid on
+sgrid([zeta zeta],[wnth 1000])
+xlim([-15,.1])
+ylim([-7,7])
+
+%% Outer Loop Design
+
+Thr2Th_num = [Kth/zth, Kth];
+Thr2Th_den = [(P.Jc + 2*P.mr*P.d^2)/pth, (P.Jc + 2*P.mr*P.d^2), Kth/zth, Kth];
+Thr2Th = tf(Thr2Th_num,Thr2Th_den)
+Thr2Th = minreal(Thr2Th)
+
+% Inner = Kth*InnerSys
+zz = wnz*.75;
+pz = zz*7;
+
+ZC_num = [1/zz 1];
+ZC_den = [1/pz 1];
+ZC = tf(ZC_num,ZC_den)
+
+OuterSys = ZC*Thr2Th*Theta2Z; %ZC*Kth*InnerSys*Theta2Z
+OuterSys = minreal(OuterSys)
+
+Kz = .00872;
+
+figure()
+rlocus(OuterSys)
+hold on 
+rlocus(OuterSys,Kz,'r^')
+grid on
+sgrid([zeta zeta],[wnz 1000])
+xlim([-3,2])
+ylim([-1,1])
+
+##### SOURCE END #####
+--></body></html>
