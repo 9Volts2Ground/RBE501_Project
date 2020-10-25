@@ -28,6 +28,7 @@ if t==0
     VTOLrotor2_handle = drawVTOLrotor(x,y,z,roll,pitch,yaw,2,P,[]);
     VTOLrotor3_handle = drawVTOLrotor(x,y,z,roll,pitch,yaw,3,P,[]);
     VTOLrotor4_handle = drawVTOLrotor(x,y,z,roll,pitch,yaw,4,P,[]);
+    PlotGround(x,y);
 %Update plots every other call
 else
     drawVTOLbody(x,y,z,roll,pitch,yaw,P,VTOLbody_handle);

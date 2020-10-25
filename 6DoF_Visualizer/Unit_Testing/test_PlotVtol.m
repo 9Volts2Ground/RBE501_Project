@@ -4,7 +4,7 @@ addpath('..')
 
 vtol_param;
 
-pos = [10,0,10];
+pos = [10,0,5];
 orientation = [pi/6,pi/8,0];
 time = 0;
 
