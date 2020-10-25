@@ -2,7 +2,7 @@ clc; clear all; close all;
 
 addpath('..')
 
-vtol_param;
+drone_param;
 
 pos = [10,0,5];
 orientation = [pi/6,pi/8,0];
