@@ -1,4 +1,4 @@
-function PlotGround(x,y,handle)
+function drawGround(x,y,handle)
 
 ground_size = 5;
 

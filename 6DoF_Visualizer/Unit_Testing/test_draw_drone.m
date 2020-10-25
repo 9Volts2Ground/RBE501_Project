@@ -14,4 +14,4 @@ u(4:6) = orientation;
 u(7) = time;
 
 %Test plotter
-PlotVtol(u,P)
+drawDrone(u,P)

@@ -1,4 +1,4 @@
-function handle = drawVTOLbody(x,y,z,roll,pitch,yaw,P,handle)
+function handle = drawDroneBody(x,y,z,roll,pitch,yaw,P,handle)
 
 % %Test translation
 % roll = 0;

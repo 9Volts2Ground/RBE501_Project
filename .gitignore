@@ -6,4 +6,6 @@
 *.asv
 */*.asv
 */*/*.asv
+*/*.slxc
+*/*/*.slxc
 

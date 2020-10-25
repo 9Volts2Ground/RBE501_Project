@@ -1,4 +1,4 @@
-function handle = drawVTOLrotor(x,y,z,roll,pitch,yaw,quadrant,P,handle)
+function handle = drawDroneRotor(x,y,z,roll,pitch,yaw,quadrant,P,handle)
 
 % %Test translation
 % roll = 0;
@@ -55,50 +55,13 @@ prop_y_translated = [prop_bottom_translated(2,:); prop_top_translated(2,:)];
 prop_z_translated = [prop_bottom_translated(3,:); prop_top_translated(3,:)];
 
 
-surf(prop_x_translated, prop_y_translated, prop_z_translated);
+% surf(prop_x_translated, prop_y_translated, prop_z_translated);
 
 if isempty(handle)
     handle = surf(prop_x_translated, prop_y_translated, prop_z_translated);
 else
-    set(handle,'XData',Xprop_x_translated,'YData',prop_x_translated,'ZData',prop_z_translated);
+    set(handle,'XData',prop_x_translated,'YData',prop_y_translated,'ZData',prop_z_translated);
 end
     
-%% Legacy code
-% tt = 0:.1:2*pi;
-% 
-% d = P.d;
-% if (side == 1)
-%     d = d*-1;
-% end
-%            
-% props_pts = [P.ew*cos(tt) +  d;
-%              P.eh*sin(tt)];
-%          
-% % props_pts = [P.ew*cos(tt) + (zv + d);
-% %              P.eh*sin(tt) + h];
-%          
-% % Tc = [(zv + d), (zv + d), (zv + d), (zv + d);
-% %         h, h, h, h];
-% % [(zv + d); h]*ones(2,4);
-% 
-% R = [cos(theta), -sin(theta);
-%     sin(theta), cos(theta)];
-% 
-% % props_pts = props_pts + Tc;
-% props_pts = R*props_pts;
-% 
-% for i=1:1:length(props_pts(1,:))
-%    props_pts(:,i) = props_pts(:,i) + [zv; h]; 
-% end
-% 
-% 
-% X = props_pts(1,:);
-% Y = props_pts(2,:);
-% 
-% if isempty(handle)
-%     handle = fill(X,Y,'b');
-% else
-%     set(handle,'XData',X,'YData',Y);
-% end
 
 end
