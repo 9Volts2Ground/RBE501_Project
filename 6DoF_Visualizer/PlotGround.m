@@ -1,6 +1,6 @@
 function PlotGround(x,y,handle)
 
-ground_size = 10;
+ground_size = 5;
 
 x_limits = [x-ground_size, x+ground_size];
 y_limits = [y-ground_size, y+ground_size];
