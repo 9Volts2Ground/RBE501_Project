@@ -22,6 +22,11 @@ P.motor_mass = .5;  %Motor mass
 P.prop_mass = .1;   %Prop mass
 P.mass_total = P.body_mass + 4*(P.motor_mass + P.prop_mass); 
 
+%Inertia values (arbitrarily chosen)
+P.Ixx = 1;
+P.Iyy = 1;
+P.Izz = 1;
+
 %% Initial Conditions
 P.position0 = [0, 0, 0]';
 P.velocity0 = [0, 0, 0]';
@@ -42,6 +47,10 @@ P.yaw_equilibrium = 0;
 %% Max actuator limits
 P.Force_max = 20;
 P.Torque_max = 10;
+
+%% Body Torque from Motor Torque
+%This is derived experimentally. Need to fill in better system
+
 
 %% Simulation Parameters
 P.t_start = 0.0;  % Start time of simulation

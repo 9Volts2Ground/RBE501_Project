@@ -118,24 +118,34 @@ motor_fl = u(2);    %Front left
 motor_br = u(3);    %Back right
 motor_bl = u(4);    %Back left
 
+%% Body Torque from Motor Torque
+%This is derived experimentally. Need to fill in better system
+H1 = motor_fr;
+H2 = motor_fl;
+H3 = motor_br;
+H4 = motor_bl;
+
 
 %% Calculate accelerations
 %Note: derivitive of * is *dot, which is given in the input, so we only
 %need to calculate the deritivite of given *dot values, which is *ddot
 
-% Xddot = -sin(pitch)...something
-% 
-% Yddot = 
-
 %(Motor force - gravity force)/(total mass)
-motor_force = (motor_fr + motor_fl + motor_br + motor_bl)*cos(roll)*cos(pitch);
-Zddot = (motor_force - P.mass_total*P.g)/P.mass_total;
+total_force = motor_fr + motor_fl + motor_br + motor_bl;
 
-% rollddot = 
-% 
-% pitchddot = 
-% 
-% yawddot = 
+%Linear acceleration
+Xddot = (cos(pitch)*sin(roll)*cos(yaw) + sin(pitch)*sin(yaw))*total_force/P.mass_total;
+
+Yddot = (cos(pitch)*sin(roll)*sin(yaw) - sin(pitch)*cos(yaw))*total_force/P.mass_total;
+
+Zddot = (cos(pitch)*cos(roll)*total_force - P.mass_total*P.g)/P.mass_total;
+
+%Angular acceleration
+rollddot = (P.d*(motor_fr + motor_br - motor_fl  - motor_bl) - (P.Ixx - P.Izz)*pitchdot*yawdot)/P.Iyy;
+
+pitchddot = (P.d*(motor_fr + motor_fl - motor_br - motor_bl) - (P.Izz - P.Iyy)*rolldot*yawdot)/P.Ixx;
+
+yawddot = ( (H1 + H3) - (H2 + H4) - (P.Iyy - P.Ixx)*rolldot*pitchdot )/P.Izz;
 
 
 
@@ -194,6 +204,9 @@ sys = [];
 % Return the block outputs.
 %==========================================================================
 function sys=mdlOutputs(t,x,u)
+
+%Make sure the drone doesn't go below the ground
+% x = ground_limit(x);
 
 %Unpack States from x vector
 X = x(1);
