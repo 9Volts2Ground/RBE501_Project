@@ -120,10 +120,10 @@ motor_bl = u(4);    %Back left
 
 %% Body Torque from Motor Torque
 %This is derived experimentally. Need to fill in better system
-H1 = motor_fr;
-H2 = motor_fl;
-H3 = motor_br;
-H4 = motor_bl;
+H1 = motor_fr * P.torque_constant;
+H2 = motor_fl * P.torque_constant;
+H3 = motor_br * P.torque_constant;
+H4 = motor_bl * P.torque_constant;
 
 
 %% Calculate accelerations
@@ -134,9 +134,9 @@ H4 = motor_bl;
 total_force = motor_fr + motor_fl + motor_br + motor_bl;
 
 %Linear acceleration
-Xddot = (cos(pitch)*sin(roll)*cos(yaw) + sin(pitch)*sin(yaw))*total_force/P.mass_total;
+Xddot = (cos(pitch)*sin(roll)*sin(yaw) - sin(pitch)*cos(yaw))*total_force/P.mass_total;
 
-Yddot = (cos(pitch)*sin(roll)*sin(yaw) - sin(pitch)*cos(yaw))*total_force/P.mass_total;
+Yddot = (cos(pitch)*sin(roll)*cos(yaw) + sin(pitch)*sin(yaw))*total_force/P.mass_total;
 
 Zddot = (cos(pitch)*cos(roll)*total_force - P.mass_total*P.g)/P.mass_total;
 
@@ -145,7 +145,9 @@ rollddot = (P.d*(motor_fr + motor_br - motor_fl  - motor_bl) - (P.Ixx - P.Izz)*p
 
 pitchddot = (P.d*(motor_fr + motor_fl - motor_br - motor_bl) - (P.Izz - P.Iyy)*rolldot*yawdot)/P.Ixx;
 
-yawddot = ( (H1 + H3) - (H2 + H4) - (P.Iyy - P.Ixx)*rolldot*pitchdot )/P.Izz;
+yawddot = ( (H1 + H4) - (H2 + H3) - (P.Iyy - P.Ixx)*rolldot*pitchdot )/P.Izz;
+
+fprintf('t, yawddot, H: %d, %d, %d, %d, %d, %d\n', t, yawddot, H1, H2, H3, H4)
 
 
 

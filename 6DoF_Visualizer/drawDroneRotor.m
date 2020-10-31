@@ -12,8 +12,8 @@ function handle = drawDroneRotor(x,y,z,roll,pitch,yaw,quadrant,P,handle)
 radius = P.prop_length/2;
 [prop_x, prop_y, prop_z] = cylinder(radius);
 
-prop_z = prop_z*P.prop_thickness + P.base_height; %Scale how tall we plot the cylinder. Make it sit above the drone base
-
+%Scale how tall we plot the cylinder. Make it sit above the drone base
+prop_z = prop_z*P.prop_thickness + P.base_height;
 %Translate rotor to corner of the drone
 if quadrant == 1
     prop_x = prop_x + P.w/2;

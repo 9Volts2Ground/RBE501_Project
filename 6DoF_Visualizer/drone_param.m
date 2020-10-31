@@ -49,14 +49,15 @@ P.Force_max = 20;
 P.Torque_max = 10;
 
 %% Body Torque from Motor Torque
-%This is derived experimentally. Need to fill in better system
+%This is derived experimentally. Value is assumed for now
+P.torque_constant = 50;
 
 
 %% Simulation Parameters
 P.t_start = 0.0;  % Start time of simulation
-P.t_end = 50.0;   % End time of simulation
+P.t_end = 60.0;   % End time of simulation
 P.Ts = 0.01;      % sample time for simulation
-P.t_plot = 0.1;   % the plotting and animation is updated at this rate
+P.t_plot = 0.02;   % the plotting and animation is updated at this rate
 
 %% Legacy code------------------------------------------------------------
 

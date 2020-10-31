@@ -25,20 +25,26 @@ end
 x_limits = [ground_x_min, ground_x_max];
 y_limits = [ground_y_min, ground_y_max];
 
+fprintf('ground.x,ylim: %d, %d, %d, %d \n', x_limits(1), x_limits(2), y_limits(1), y_limits(2));
+
 [x_ground,y_ground] = meshgrid(x_limits(1):x_limits(2), y_limits(1):y_limits(2));
 
 z_ground = zeros(size(x_ground, 1));
+
+fprintf('ground.z_ground \n')
 
 % color = [0,0,0];
 
 [m,n] = size(x_ground);
 color = zeros(m, n, 3);
 
-surf(x_ground, y_ground, z_ground, color);
+% surf(x_ground, y_ground, z_ground, color);
+
 
 if isempty(handle)
     handle = surf(x_ground, y_ground, z_ground, color);
 else
+%     surf(handle,'XData', x_ground, 'YData', y_ground, 'ZData', z_ground);
     set(handle,'XData', x_ground, 'YData', y_ground, 'ZData', z_ground);
 end
 

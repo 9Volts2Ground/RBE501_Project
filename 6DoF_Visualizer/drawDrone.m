@@ -9,6 +9,8 @@ pitch = u(5);
 yaw = u(6);
 t = u(7);
 
+% fprintf('roll, pitch, yaw: %d, %d, %d\n', roll, pitch, yaw)
+
 %Plotting handles
 persistent VTOLbody_handle;
 persistent VTOLrotor1_handle;
@@ -34,7 +36,6 @@ if t==0
     y_min = y - plot_buffer;
     z_max = z + plot_buffer;
     
-    fprintf('Initializing plot \n')
     figure()
     clf
     axis equal
@@ -43,14 +44,18 @@ if t==0
     xlabel('X (m)')
     ylabel('Y (m)')
     zlabel('Z (m)')
-    view(30, 10)  %Force angled camera view
+    
+    %Plot initial position
+    plot3(x,y,z,'*')
+    
+    view(30, 5)  %Force angled camera view (az, el)
     %Figure out how to draw a plane to represent the ground
     VTOLbody_handle = drawDroneBody(x,y,z,roll,pitch,yaw,P,[]);
     VTOLrotor1_handle = drawDroneRotor(x,y,z,roll,pitch,yaw,1,P,[]);
     VTOLrotor2_handle = drawDroneRotor(x,y,z,roll,pitch,yaw,2,P,[]);
     VTOLrotor3_handle = drawDroneRotor(x,y,z,roll,pitch,yaw,3,P,[]);
     VTOLrotor4_handle = drawDroneRotor(x,y,z,roll,pitch,yaw,4,P,[]);
-    Ground_handle = drawGround(x,y,[]);
+%     Ground_handle = drawGround(x,y,[]);
     xlim([x_min, x_max])
     ylim([y_min, y_max])
     zlim([0, z_max])
@@ -58,7 +63,6 @@ if t==0
 %Update plots every other call
 else    
     
-    fprintf('calculate plot_limits... \n')
     %Update max plotting limits
     x_max = max([x_max, x + plot_buffer]);
     x_min = min([x_min, x - plot_buffer]);
@@ -66,20 +70,15 @@ else
     y_min = min([y_min, y - plot_buffer]);
     z_max = max([z_max, z + plot_buffer]);
     
-    fprintf('draw body... \n')
     drawDroneBody(x,y,z,roll,pitch,yaw,P,VTOLbody_handle);    
-    fprintf('draw r1... \n')
     drawDroneRotor(x,y,z,roll,pitch,yaw,1,P,VTOLrotor1_handle);
-    fprintf('draw r2... \n')
     drawDroneRotor(x,y,z,roll,pitch,yaw,2,P,VTOLrotor2_handle);
-    fprintf('draw r3... \n')
     drawDroneRotor(x,y,z,roll,pitch,yaw,3,P,VTOLrotor3_handle);
-    fprintf('draw r4... \n')
     drawDroneRotor(x,y,z,roll,pitch,yaw,4,P,VTOLrotor4_handle);
-    fprintf('draw ground... \n')
-    drawGround(x,y,Ground_handle);
     
-    fprintf('update lims... \n')
+%     fprintf('drawDrone.x,y: %d, %d \n', x, y)
+%     drawGround(x,y,Ground_handle);
+    
     xlim([x_min, x_max])
     ylim([y_min, y_max])
     zlim([0, z_max])
