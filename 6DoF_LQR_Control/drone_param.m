@@ -3,6 +3,9 @@ clc; clear all; close all; format compact;
 %Simulation Paramters
 %==========================================================================
 
+%% Desired state
+P.X_des = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]';
+
 %% Plotting parameters
 % Size of the Done
 P.w = 0.3048;           %width of the base body in meters (12 inches)
@@ -55,14 +58,16 @@ P.torque_constant = 50;
 %% LQR Control
 
 %Linearized State-Space Model
-% A = 
-% B = 
+P = drone_linearization(P);
 
 %Cost matrices
     %Q = state cost
     %R = actuator cost
-Q = eye(12);
-R = eye(4);
+P.Q = eye(12);
+P.R = eye(4);
+
+%% Grab LQR gain matrix
+P.K = lqr(P.A, P.B, P.Q, P.R);
 
 
 
