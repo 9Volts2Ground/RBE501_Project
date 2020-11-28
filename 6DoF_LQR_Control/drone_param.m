@@ -9,7 +9,7 @@ P.X_des = [1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]';
 %% Plotting parameters
 % Size of the Done
 P.w = 0.3048;           %width of the base body in meters (12 inches)
-P.base_height = 0.0508; %Thickness of the body in meters (made up value. About 2" seem legit?)
+P.base_height = 0.0508; %Thickness of the body in meters (about 2")
 
 P.prop_length = 0.254; %Diameter of propellers, in meters (10 inches)
 P.prop_thickness = 0.00635; %Thickness of propeller plot, in meters (1/4 inch)
@@ -37,7 +37,6 @@ P.orientation0 = [0, 0, 0]';
 P.orientation_dot0 = [0, 0, 0]';
 
 %% Universe constants
-P.mu = .1;      %Drag damping. Is this a realistic value? 
 P.g = 9.81;     %Gravity
 
 %% Equilibrium
@@ -62,11 +61,17 @@ P.torque_constant = 50;
 %Linearized State-Space Model
 P = drone_linearization(P);
 
-%Cost matrices
+%Cost matrices. Default to values of 1 (identity matrices)
     %Q = state cost
     %R = actuator cost
 P.Q = eye(12);
+
 P.R = eye(4);
+
+%Updated gain values
+% P.Q(1,1) = 4;
+% P.Q(2,2) = 4;
+% P.Q(3,3) = 4;
 
 %% Grab LQR gain matrix
 P.K = lqr(P.A, P.B, P.Q, P.R);

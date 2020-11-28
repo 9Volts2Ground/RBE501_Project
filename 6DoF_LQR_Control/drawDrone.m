@@ -11,8 +11,6 @@ yaw = u(9);
 %r/p/ydot(10:12)
 t = u(13);
 
-% fprintf('roll, pitch, yaw: %d, %d, %d\n', roll, pitch, yaw)
-
 %Plotting handles
 persistent VTOLbody_handle;
 persistent VTOLrotor1_handle;

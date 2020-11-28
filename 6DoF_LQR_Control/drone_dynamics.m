@@ -207,9 +207,6 @@ sys = [];
 %==========================================================================
 function sys=mdlOutputs(t,x,u)
 
-%Make sure the drone doesn't go below the ground
-% x = ground_limit(x);
-
 %Unpack States from x vector
 X = x(1);
 Y = x(2);
@@ -223,8 +220,6 @@ yaw = x(9);
 rolldot = x(10);
 pitchdot = x(11);
 yawdot = x(12);
-
-% fprintf('dynamics.X,Y,Z: %d %d %d \n', X, Y, Z);
 
 %Reassign states for output
 sys =  [X;
