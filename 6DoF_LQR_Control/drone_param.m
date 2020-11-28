@@ -4,7 +4,7 @@ clc; clear all; close all; format compact;
 %==========================================================================
 
 %% Desired state
-P.X_des = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]';
+P.X_des = [1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]';
 
 %% Plotting parameters
 % Size of the Done
@@ -47,6 +47,8 @@ P.roll_equilibrium = 0;
 P.pitch_equilibrium = 0;
 P.yaw_equilibrium = 0;
 
+P.gravity_equilibrium = [P.motor_equilibrium, P.motor_equilibrium, P.motor_equilibrium, P.motor_equilibrium]';
+
 %% Max actuator limits
 P.Force_max = 20;
 P.Torque_max = 10;
@@ -73,9 +75,11 @@ P.K = lqr(P.A, P.B, P.Q, P.R);
 
 %% Simulation Parameters
 P.t_start = 0.0;  % Start time of simulation
-P.t_end = 60.0;   % End time of simulation
+P.t_end = 15.0;   % End time of simulation
 P.Ts = 0.01;      % sample time for simulation
 P.t_plot = 0.02;   % the plotting and animation is updated at this rate
+
+fprintf('Done initializing. Running sim...')
 
 %% Legacy code------------------------------------------------------------
 

@@ -147,7 +147,7 @@ pitchddot = (P.d*(motor_fr + motor_fl - motor_br - motor_bl) - (P.Izz - P.Iyy)*r
 
 yawddot = ( (H1 + H4) - (H2 + H3) - (P.Iyy - P.Ixx)*rolldot*pitchdot )/P.Izz;
 
-fprintf('t, yawddot, H: %d, %d, %d, %d, %d, %d\n', t, yawddot, H1, H2, H3, H4)
+% fprintf('t, yawddot, H: %d, %d, %d, %d, %d, %d\n', t, yawddot, H1, H2, H3, H4)
 
 
 
@@ -223,6 +223,8 @@ yaw = x(9);
 rolldot = x(10);
 pitchdot = x(11);
 yawdot = x(12);
+
+% fprintf('dynamics.X,Y,Z: %d %d %d \n', X, Y, Z);
 
 %Reassign states for output
 sys =  [X;
