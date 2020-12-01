@@ -69,13 +69,17 @@ P.Q = eye(12);
 P.R = eye(4);
 
 %Updated gain values
-% P.Q(1,1) = 4;
-% P.Q(2,2) = 4;
-% P.Q(3,3) = 4;
+P.Q(1,1) = 4;
+P.Q(2,2) = 4;
+P.Q(3,3) = 4;
 
 %% Grab LQR gain matrix
+sprintf('Calculating LQR gain matrix K... \n')
 P.K = lqr(P.A, P.B, P.Q, P.R);
 
+%% Noise parameters
+P.feedback_noise = true;
+P.noise_sigma = 0.25;
 
 
 %% Simulation Parameters
