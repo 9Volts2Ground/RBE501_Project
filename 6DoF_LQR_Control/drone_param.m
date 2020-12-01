@@ -78,8 +78,11 @@ sprintf('Calculating LQR gain matrix K... \n')
 P.K = lqr(P.A, P.B, P.Q, P.R);
 
 %% Noise parameters
-P.feedback_noise = true;
+P.feedback_noise = false;
 P.noise_sigma = 0.25;
+
+%% Input Disturbance
+P.input_disturbance = true;
 
 
 %% Simulation Parameters

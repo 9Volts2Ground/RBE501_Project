@@ -6,8 +6,6 @@ if isfield(P, 'feedback_noise')
     %Only do noise if it's true
     if P.feedback_noise
         
-        sprintf( 'add_noise.adding noise! \n')
-        
         %Grab standard deviation of noise
         if isfield(P, 'noise_sigma')
             noise_sigma = P.noise_sigma;
